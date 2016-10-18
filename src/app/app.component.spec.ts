@@ -1,14 +1,42 @@
 /* tslint:disable:no-unused-variable */
+import {
+    RouterTestingModule
+} from '@angular/router/testing';
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { provideRoutes, Routes, RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+
+import { HackerNewsAPIService } from './hackernews-api.service';
+
+@Component({
+    selector: 'as-test-cmp',
+    template: '<div class="title">Hello test</div>'
+})
+class TestRouterComponent {
+}
+
+let config: Routes = [
+    {
+        path: '', component: TestRouterComponent
+    }
+];
 
 describe('App: Ng2News', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        TestRouterComponent,
+        AppComponent,
+        HeaderComponent,
+        FooterComponent
       ],
+      imports: [ RouterTestingModule, RouterModule ],
+      providers: [ provideRoutes(config) ]
     });
   });
 
@@ -22,12 +50,5 @@ describe('App: Ng2News', () => {
     let fixture = TestBed.createComponent(AppComponent);
     let app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('app works!');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    let compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('app works!');
   }));
 });
